@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Avaliação de Atendimento - ISMD</title>
+  <style>
+    body {
+      font-family: made-tommy Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+      background-color: #114739;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .card {
+      background-color: #ffffff;
+      width: 90vw;
+      max-width: 500px;
+      border-radius: 12px;
+      padding: 30px;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-top: 20px;
+      margin-bottom: 5px;
+      text-align: left;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 12px 24px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      background-color: #114739;
+      color: white;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h2>Início da Avaliação</h2>
+
+  <form id="startForm">
+    <label for="paciente_id">ID do Paciente:</label>
+    <input type="text" id="paciente_id" name="paciente_id" required placeholder="Digite o ID do paciente">
+
+    <label for="atendente_nome">Nome do Atendente:</label>
+    <input type="text" id="atendente_nome" name="atendente_nome" required placeholder="Digite seu nome">
+
+    <button type="submit">Continuar</button>
+  </form>
+</div>
+
+<script>
+  document.getElementById('startForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const pacienteId = document.getElementById('paciente_id').value.trim();
+    const atendenteNome = document.getElementById('atendente_nome').value.trim();
+
+    if (pacienteId && atendenteNome) {
+      const params = new URLSearchParams({
+        paciente_id: pacienteId,
+        atendente_nome: atendenteNome
+      });
+
+      window.location.href = 'avaliacao.html?' + params.toString();
+    }
+  });
+</script>
+
+</body>
+</html>
