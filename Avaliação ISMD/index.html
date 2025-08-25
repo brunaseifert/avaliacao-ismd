@@ -31,9 +31,9 @@
     .card {
       background-color: #ffffff;
       width: 90vw;
-      max-width: 500px;
+      max-width: 530px;
       border-radius: 12px;
-      padding: 30px;
+      padding: 35px;
       text-align: center;
     }
 
@@ -50,13 +50,15 @@
       margin-left: 4px;
     }
 
-    input {
-      width: 100%;
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-    }
+input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  box-sizing: border-box;
+  margin: 0; 
+}
 
     button {
       margin-top: 30px;
@@ -84,10 +86,8 @@
   <h2>Início da Avaliação</h2>
 
   <form id="startForm">
-    <label for="paciente_id">
-      ID do Paciente:<span class="required-asterisk">*</span>
-    </label>
-    <input type="text" id="paciente_id" name="paciente_id" required placeholder="Digite o ID do paciente">
+  <label for="paciente_id">ID do Paciente:<span class="required-asterisk">*</span></label>
+<input type="text" id="paciente_id" name="paciente_id" required placeholder="Digite o ID do paciente">
 
     <label for="atendente_nome">
       Nome do(a) Atendente:<span class="required-asterisk">*</span>
