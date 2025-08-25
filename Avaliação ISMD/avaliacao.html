@@ -60,29 +60,37 @@
 
     .carinhas {
       display: flex;
-      gap: 10px;
+      gap: 12px;
+      align-items: center;
+      justify-content: flex-start;
+      margin-top: 10px;
       margin-bottom: 15px;
     }
 
-    input[type="radio"] {
+    .carinhas input[type="radio"] {
       display: none;
     }
 
     .carinhas label {
-      font-size: 40px;
       cursor: pointer;
-      transition: transform 0.2s;
-      color: #ccc;
-      user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .carinhas label:hover {
-      transform: scale(1.3);
+    .icone-carinha {
+      width: 60px;  
+      height: 60px;
+      transition: transform 0.2s ease;
+      pointer-events: none;
     }
 
-    input[type="radio"]:checked + label {
-      color: #114739;
-      transform: scale(1.4);
+    input[type="radio"]:checked + label .icone-carinha {
+      transform: scale(1.2);
+    }
+
+    .carinhas label:hover .icone-carinha {
+      transform: scale(1.1);
     }
 
     textarea {
@@ -134,10 +142,9 @@
     } 
 
     .riscado {
-  text-decoration: line-through;
-  color: gray;
-}
-
+      text-decoration: line-through;
+      color: gray;
+    }
   </style>
 </head>
 <body>
@@ -148,7 +155,7 @@
   <h2>Avaliação de Atendimento - ISMD</h2>
 
   <div class="id_Paciente">
-<p><strong>ID do Paciente:</strong> <span id="paciente_id_span" class="paciente-id"></span></p>
+    <p><strong>ID do Paciente:</strong> <span id="paciente_id_span" class="paciente-id"></span></p>
     <p><strong>Atendente:</strong> <span id="atendente_nome_span"></span></p>
   </div>
 
@@ -156,20 +163,25 @@
     <div class="criterion">
       <label class="criterion-title">Como foi seu atendimento?<span style="color: red;"> *</span></label>
       <div class="carinhas">
-        <input type="radio" name="atendimento" id="atendimento_bravo" value="bravo" />
-        <label for="atendimento_bravo" title="Bravo">😠</label>
-
-        <input type="radio" name="atendimento" id="atendimento_triste" value="triste" />
-        <label for="atendimento_triste" title="Triste">😞</label>
+        <input type="radio" name="atendimento" id="atendimento_ruim" value="ruim" />
+        <label for="atendimento_ruim" title="Ruim">
+          <img src="img/bravo.png" alt="Ruim" class="icone-carinha" />
+        </label>
 
         <input type="radio" name="atendimento" id="atendimento_neutro" value="neutro" />
-        <label for="atendimento_neutro" title="Neutro">😐</label>
+        <label for="atendimento_neutro" title="Neutro">
+          <img src="img/neutro.png" alt="Neutro" class="icone-carinha" />
+        </label>
 
-        <input type="radio" name="atendimento" id="atendimento_sorriso" value="sorriso" />
-        <label for="atendimento_sorriso" title="Sorriso">🙂</label>
+        <input type="radio" name="atendimento" id="atendimento_bom" value="bom" />
+        <label for="atendimento_bom" title="Bom">
+          <img src="img/bom.png" alt="Bom" class="icone-carinha" />
+        </label>
 
-        <input type="radio" name="atendimento" id="atendimento_feliz" value="feliz" />
-        <label for="atendimento_feliz" title="Feliz">😃</label>
+        <input type="radio" name="atendimento" id="atendimento_otimo" value="otimo" />
+        <label for="atendimento_otimo" title="Otimo">
+          <img src="img/feliz.png" alt="Otimo" class="icone-carinha" />
+        </label>
       </div>
     </div>
 
@@ -188,7 +200,6 @@
 </div>
 
 <script>
-
   const params = new URLSearchParams(window.location.search);
   const pacienteId = params.get("paciente_id") || "Não informado";
   const atendenteNome = params.get("atendente_nome") || "Não informado";
@@ -224,7 +235,6 @@
     window.location.href = "feedback.html";
   });
 </script>
-
 
 </body>
 </html>
