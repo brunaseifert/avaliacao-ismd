@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="author" content="Front-end desenvolvido por Bruna Seifert © 2025" />
   <title>Avaliação de Atendimento - ISMD</title>
   <style>
     body {
@@ -11,8 +12,20 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
       height: 100vh;
       margin: 0;
+      padding: 20px;
+    }
+
+    .logo-bg {
+      background-image: url('img/Logo horizontal branco.png'); 
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      width: 300px;
+      height: 80px;
+      margin-bottom: 20px;
     }
 
     .card {
@@ -24,8 +37,9 @@
     }
 
     h2 {
-      font-size: 22px;
-      margin-bottom: 10px;
+      color: #114739;
+      font-size: 24px;
+      margin-bottom: 15px;
       text-align: center;
     }
 
@@ -117,22 +131,30 @@
     .submit-btn {
       background-color: #114739;
       color: white;
-    }
+    } 
+
+    .riscado {
+  text-decoration: line-through;
+  color: gray;
+}
+
   </style>
 </head>
 <body>
+
+<div class="logo-bg"></div>
 
 <div class="card">
   <h2>Avaliação de Atendimento - ISMD</h2>
 
   <div class="id_Paciente">
-    <p><strong>ID do Paciente:</strong> <span id="paciente_id_span"></span></p>
+<p><strong>ID do Paciente:</strong> <span id="paciente_id_span" class="paciente-id"></span></p>
     <p><strong>Atendente:</strong> <span id="atendente_nome_span"></span></p>
   </div>
 
-  <form>
+  <form id="avaliacaoForm">
     <div class="criterion">
-      <label class="criterion-title">Como foi seu atendimento?</label>
+      <label class="criterion-title">Como foi seu atendimento?<span style="color: red;"> *</span></label>
       <div class="carinhas">
         <input type="radio" name="atendimento" id="atendimento_bravo" value="bravo" />
         <label for="atendimento_bravo" title="Bravo">😠</label>
@@ -151,7 +173,7 @@
       </div>
     </div>
 
-    <label for="comentarios">Comentários (Opcional)</label>
+    <label for="comentarios">Deixe seu comentário (Opcional)</label>
     <textarea id="comentarios" maxlength="100" placeholder="Escreva aqui seu comentário..."></textarea>
 
     <div class="anonimato-container">
@@ -166,13 +188,43 @@
 </div>
 
 <script>
+
   const params = new URLSearchParams(window.location.search);
   const pacienteId = params.get("paciente_id") || "Não informado";
   const atendenteNome = params.get("atendente_nome") || "Não informado";
 
-  document.getElementById("paciente_id_span").innerText = pacienteId;
-  document.getElementById("atendente_nome_span").innerText = atendenteNome;
+  // Preencher dados
+  const pacienteIdSpan = document.getElementById("paciente_id_span");
+  const atendenteNomeSpan = document.getElementById("atendente_nome_span");
+  const anonimatoCheckbox = document.getElementById("anonimo");
+
+  pacienteIdSpan.innerText = pacienteId;
+  atendenteNomeSpan.innerText = atendenteNome;
+
+  // Lógica para riscar o ID se for anônimo
+  anonimatoCheckbox.addEventListener("change", function () {
+    if (this.checked) {
+      pacienteIdSpan.classList.add("riscado");
+    } else {
+      pacienteIdSpan.classList.remove("riscado");
+    }
+  });
+
+  // Validação do formulário
+  document.getElementById("avaliacaoForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const atendimentoSelecionado = document.querySelector('input[name="atendimento"]:checked');
+
+    if (!atendimentoSelecionado) {
+      alert("Por favor, selecione uma opção em 'Como foi seu atendimento?'.");
+      return;
+    }
+
+    window.location.href = "feedback.html";
+  });
 </script>
+
 
 </body>
 </html>
