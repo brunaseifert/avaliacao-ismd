@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="author" content="Front-end desenvolvido por Bruna Seifert © 2025" />
   <title>Avaliação de Atendimento - ISMD</title>
   <style>
     body {
@@ -11,8 +12,20 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
       height: 100vh;
       margin: 0;
+      padding: 20px;
+    }
+
+    .logo-bg {
+      background-image: url('img/Logo horizontal branco.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      width: 400px;
+      height: 150px;
+      margin-bottom: 20px;
     }
 
     .card {
@@ -30,6 +43,11 @@
       margin-top: 20px;
       margin-bottom: 5px;
       text-align: left;
+    }
+
+    .required-asterisk {
+      color: red;
+      margin-left: 4px;
     }
 
     input {
@@ -50,18 +68,30 @@
       color: white;
       font-size: 16px;
     }
+
+    h2 {
+      color: #114739;
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
   </style>
 </head>
 <body>
+
+<div class="logo-bg"></div>
 
 <div class="card">
   <h2>Início da Avaliação</h2>
 
   <form id="startForm">
-    <label for="paciente_id">ID do Paciente:</label>
+    <label for="paciente_id">
+      ID do Paciente:<span class="required-asterisk">*</span>
+    </label>
     <input type="text" id="paciente_id" name="paciente_id" required placeholder="Digite o ID do paciente">
 
-    <label for="atendente_nome">Nome do Atendente:</label>
+    <label for="atendente_nome">
+      Nome do(a) Atendente:<span class="required-asterisk">*</span>
+    </label>
     <input type="text" id="atendente_nome" name="atendente_nome" required placeholder="Digite seu nome">
 
     <button type="submit">Continuar</button>
@@ -72,17 +102,47 @@
   document.getElementById('startForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
-    const pacienteId = document.getElementById('paciente_id').value.trim();
-    const atendenteNome = document.getElementById('atendente_nome').value.trim();
+    const pacienteIdInput = document.getElementById('paciente_id');
+    const atendenteNomeInput = document.getElementById('atendente_nome');
 
-    if (pacienteId && atendenteNome) {
-      const params = new URLSearchParams({
-        paciente_id: pacienteId,
-        atendente_nome: atendenteNome
-      });
+    const pacienteId = pacienteIdInput.value.trim();
+    const atendenteNome = atendenteNomeInput.value.trim();
 
-      window.location.href = 'avaliacao.html?' + params.toString();
+    // Só permite ID com numeros e Atendente com letras
+    const numerosRegex = /^[0-9]+$/;
+    const letrasRegex = /^[A-Za-zÀ-ÿ\s]+$/; 
+
+    // Validações
+    if (pacienteId === '') {
+      alert('Por favor, preencha o ID do paciente.');
+      pacienteIdInput.focus();
+      return;
     }
+
+    if (!numerosRegex.test(pacienteId)) {
+      alert('O ID do paciente deve conter apenas números.');
+      pacienteIdInput.focus();
+      return;
+    }
+
+    if (atendenteNome === '') {
+      alert('Por favor, preencha o nome do(a) atendente.');
+      atendenteNomeInput.focus();
+      return;
+    }
+
+    if (!letrasRegex.test(atendenteNome)) {
+      alert('O nome do(a) atendente deve conter apenas letras.');
+      atendenteNomeInput.focus();
+      return;
+    }
+
+    const params = new URLSearchParams({
+      paciente_id: pacienteId,
+      atendente_nome: atendenteNome
+    });
+
+    window.location.href = 'avaliacao.html?' + params.toString();
   });
 </script>
 
