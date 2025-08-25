@@ -24,9 +24,5 @@ Um projeto simples de avaliação de atendimento desenvolvido para a empresa ISM
 5. Envie a avaliação e veja a página de confirmação.
 
 
-## Screenshot
-
-![Tela de feedback enviado]([https://postimg.cc/crkpftx9)]
-
 
 
