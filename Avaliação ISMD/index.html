@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="author" content="Front-end desenvolvido por Bruna Seifert © 2025" />
+  <title>Avaliação de Atendimento - ISMD</title>
+  <style>
+    body {
+      font-family: made-tommy Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+      background-color: #114739;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .logo-bg {
+      background-image: url('img/Logo horizontal branco.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      width: 400px;
+      height: 150px;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background-color: #ffffff;
+      width: 90vw;
+      max-width: 530px;
+      border-radius: 12px;
+      padding: 35px;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-top: 20px;
+      margin-bottom: 5px;
+      text-align: left;
+    }
+
+    .required-asterisk {
+      color: red;
+      margin-left: 4px;
+    }
+
+input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  box-sizing: border-box;
+  margin: 0; 
+}
+
+    button {
+      margin-top: 30px;
+      padding: 12px 24px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      background-color: #114739;
+      color: white;
+      font-size: 16px;
+    }
+
+    h2 {
+      color: #114739;
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="logo-bg"></div>
+
+<div class="card">
+  <h2>Início da Avaliação</h2>
+
+  <form id="startForm">
+  <label for="paciente_id">ID do Paciente:<span class="required-asterisk">*</span></label>
+<input type="text" id="paciente_id" name="paciente_id" required placeholder="Digite o ID do paciente">
+
+    <label for="atendente_nome">
+      Nome do(a) Atendente:<span class="required-asterisk">*</span>
+    </label>
+    <input type="text" id="atendente_nome" name="atendente_nome" required placeholder="Digite seu nome">
+
+    <button type="submit">Continuar</button>
+  </form>
+</div>
+
+<script>
+  document.getElementById('startForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const pacienteIdInput = document.getElementById('paciente_id');
+    const atendenteNomeInput = document.getElementById('atendente_nome');
+
+    const pacienteId = pacienteIdInput.value.trim();
+    const atendenteNome = atendenteNomeInput.value.trim();
+
+    // Só permite ID com numeros e Atendente com letras
+    const numerosRegex = /^[0-9]+$/;
+    const letrasRegex = /^[A-Za-zÀ-ÿ\s]+$/; 
+
+    // Validações
+    if (pacienteId === '') {
+      alert('Por favor, preencha o ID do paciente.');
+      pacienteIdInput.focus();
+      return;
+    }
+
+    if (!numerosRegex.test(pacienteId)) {
+      alert('O ID do paciente deve conter apenas números.');
+      pacienteIdInput.focus();
+      return;
+    }
+
+    if (atendenteNome === '') {
+      alert('Por favor, preencha o nome do(a) atendente.');
+      atendenteNomeInput.focus();
+      return;
+    }
+
+    if (!letrasRegex.test(atendenteNome)) {
+      alert('O nome do(a) atendente deve conter apenas letras.');
+      atendenteNomeInput.focus();
+      return;
+    }
+
+    const params = new URLSearchParams({
+      paciente_id: pacienteId,
+      atendente_nome: atendenteNome
+    });
+
+    window.location.href = 'avaliacao.html?' + params.toString();
+  });
+</script>
+
+</body>
+</html>
