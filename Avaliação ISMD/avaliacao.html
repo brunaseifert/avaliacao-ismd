@@ -268,44 +268,45 @@
     });
   });
 
-  document.getElementById("avaliacaoForm").addEventListener("submit", function(event) {
-    event.preventDefault();
+document.getElementById("avaliacaoForm").addEventListener("submit", function(event) {
+  event.preventDefault();
 
-    const atendimentoSelecionado = document.querySelector('input[name="atendimento"]:checked');
+  const atendimentoSelecionado = document.querySelector('input[name="atendimento"]:checked');
 
-    if (!atendimentoSelecionado) {
-      alert("Por favor, selecione uma opção em 'Como foi seu atendimento?'.");
-      return;
-    }
+  if (!atendimentoSelecionado) {
+    alert("Por favor, selecione uma opção em 'Como foi seu atendimento?'.");
+    return;
+  }
 
-    const motivosSelecionados = Array.from(document.querySelectorAll(".motivo-balao.selected")).map(el => el.innerText);
+  const motivosSelecionados = Array.from(document.querySelectorAll(".motivo-balao.selected")).map(el => el.innerText);
 
-    console.log("Motivos selecionados:", motivosSelecionados);
+  console.log("Motivos selecionados:", motivosSelecionados);
 
- const params = new URLSearchParams({
-      data: data,
-      hora: hora,
-      atendente_nome: atendenteNome,
-      atendimento: atendimentoSelecionado.value,
-      motivos: motivosSelecionados.join(", ")
-    });
+ const dados = {
+  data: data,
+  hora: hora,
+  atendente_nome: atendenteNome,
+  atendimento: atendimentoSelecionado.value,
+  motivos: motivosSelecionados.join(", "),
+  params: Object.fromEntries(params.entries()) // Adiciona todos os parâmetros da URL
+};
 
-       fetch('http://127.0.0.1:5501/api/receber', {
-            method: 'POST',
-            headers: {
-                 'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(dados)
-        })
-        .then(Response => Response.json())
-        .then(data => console.log('Sucesso ' + data))
-        .catch(error => console.error('Erro ' + error));
-        })
+fetch('http://127.0.0.1:5501/api/receber', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(dados)
+})
+.then(response => response.json())
+.then(data => console.log('Sucesso ' + data))
+.catch(error => console.error('Erro ' + error))
+.finally(() => {
+  window.location.href = "feedback.html";
+});
+});
 
-    window.location.href = "feedback.html";
-  });
 </script>
 
 </body>
 </html>
-
