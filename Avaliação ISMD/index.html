@@ -50,15 +50,15 @@
       margin-left: 4px;
     }
 
-input {
-  width: 100%;
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-  box-sizing: border-box;
-  margin: 0; 
-}
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      box-sizing: border-box;
+      margin: 0; 
+    }
 
     button {
       margin-top: 30px;
@@ -86,59 +86,66 @@ input {
   <h2>Início da Avaliação</h2>
 
   <form id="startForm">
-  <label for="paciente_id">ID do Paciente:<span class="required-asterisk">*</span></label>
-<input type="text" id="paciente_id" name="paciente_id" required placeholder="Digite o ID do paciente">
+    <label for="data">Data:<span class="required-asterisk">*</span></label>
+    <input type="date" id="data" name="data" required readonly>
+
+    <label for="hora">Hora:<span class="required-asterisk">*</span></label>
+    <input type="time" id="hora" name="hora" required readonly>
 
     <label for="atendente_nome">
       Nome do(a) Atendente:<span class="required-asterisk">*</span>
     </label>
-    <input type="text" id="atendente_nome" name="atendente_nome" required placeholder="Digite seu nome">
+    <select id="atendente_nome" name="atendente_nome" required>
+      <option value="">Selecione o nome</option>
+      <option value="Nikolas">Nikolas</option>
+      <option value="Bruno">Bruno</option>
+      <option value="Carla">Carla</option>
+ 
+    </select>
 
     <button type="submit">Continuar</button>
   </form>
 </div>
 
 <script>
+
+  window.addEventListener('DOMContentLoaded', function() {
+    const dataInput = document.getElementById('data');
+    const horaInput = document.getElementById('hora');
+    const now = new Date();
+
+
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    const dd = String(now.getDate()).padStart(2, '0');
+    dataInput.value = `${yyyy}-${mm}-${dd}`;
+
+ 
+    const hh = String(now.getHours()).padStart(2, '0');
+    const min = String(now.getMinutes()).padStart(2, '0');
+    horaInput.value = `${hh}:${min}`;
+  });
+
   document.getElementById('startForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
-    const pacienteIdInput = document.getElementById('paciente_id');
+    const dataInput = document.getElementById('data');
+    const horaInput = document.getElementById('hora');
     const atendenteNomeInput = document.getElementById('atendente_nome');
 
-    const pacienteId = pacienteIdInput.value.trim();
-    const atendenteNome = atendenteNomeInput.value.trim();
-
-    // Só permite ID com numeros e Atendente com letras
-    const numerosRegex = /^[0-9]+$/;
-    const letrasRegex = /^[A-Za-zÀ-ÿ\s]+$/; 
-
-    // Validações
-    if (pacienteId === '') {
-      alert('Por favor, preencha o ID do paciente.');
-      pacienteIdInput.focus();
-      return;
-    }
-
-    if (!numerosRegex.test(pacienteId)) {
-      alert('O ID do paciente deve conter apenas números.');
-      pacienteIdInput.focus();
-      return;
-    }
+    const data = dataInput.value;
+    const hora = horaInput.value;
+    const atendenteNome = atendenteNomeInput.value;
 
     if (atendenteNome === '') {
-      alert('Por favor, preencha o nome do(a) atendente.');
-      atendenteNomeInput.focus();
-      return;
-    }
-
-    if (!letrasRegex.test(atendenteNome)) {
-      alert('O nome do(a) atendente deve conter apenas letras.');
+      alert('Por favor, selecione o nome do(a) atendente.');
       atendenteNomeInput.focus();
       return;
     }
 
     const params = new URLSearchParams({
-      paciente_id: pacienteId,
+      data: data,
+      hora: hora,
       atendente_nome: atendenteNome
     });
 
