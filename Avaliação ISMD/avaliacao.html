@@ -282,9 +282,30 @@
 
     console.log("Motivos selecionados:", motivosSelecionados);
 
+ const params = new URLSearchParams({
+      data: data,
+      hora: hora,
+      atendente_nome: atendenteNome,
+      atendimento: atendimentoSelecionado.value,
+      motivos: motivosSelecionados.join(", ")
+    });
+
+       fetch('http://127.0.0.1:5501/api/receber', {
+            method: 'POST',
+            headers: {
+                 'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dados)
+        })
+        .then(Response => Response.json())
+        .then(data => console.log('Sucesso ' + data))
+        .catch(error => console.error('Erro ' + error));
+        })
+
     window.location.href = "feedback.html";
   });
 </script>
 
 </body>
 </html>
+
