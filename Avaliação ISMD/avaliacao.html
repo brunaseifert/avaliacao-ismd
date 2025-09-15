@@ -177,7 +177,8 @@
   <h2>Avaliação de Atendimento - ISMD</h2>
 
   <div class="id_Paciente">
-    <p><strong>ID do Paciente:</strong> <span id="paciente_id_span" class="paciente-id"></span></p>
+    <p><strong>Data:</strong> <span id="data_span"></span></p>
+    <p><strong>Hora:</strong> <span id="hora_span"></span></p>
     <p><strong>Atendente:</strong> <span id="atendente_nome_span"></span></p>
   </div>
 
@@ -212,11 +213,6 @@
       <div id="motivosOpcoes" class="motivos-opcoes"></div>
     </div>
 
-    <div class="anonimato-container">
-      <input type="checkbox" id="anonimo" name="anonimo" />
-      <label for="anonimo">Avaliar anonimamente</label>
-    </div>
-
     <div class="buttons">
       <button type="submit" class="submit-btn">Enviar</button>
     </div>
@@ -225,23 +221,13 @@
 
 <script>
   const params = new URLSearchParams(window.location.search);
-  const pacienteId = params.get("paciente_id") || "Não informado";
+  const data = params.get("data") || "Não informado";
+  const hora = params.get("hora") || "Não informado";
   const atendenteNome = params.get("atendente_nome") || "Não informado";
 
-  const pacienteIdSpan = document.getElementById("paciente_id_span");
-  const atendenteNomeSpan = document.getElementById("atendente_nome_span");
-  const anonimatoCheckbox = document.getElementById("anonimo");
-
-  pacienteIdSpan.innerText = pacienteId;
-  atendenteNomeSpan.innerText = atendenteNome;
-
-  anonimatoCheckbox.addEventListener("change", function () {
-    if (this.checked) {
-      pacienteIdSpan.classList.add("riscado");
-    } else {
-      pacienteIdSpan.classList.remove("riscado");
-    }
-  });
+  document.getElementById("data_span").innerText = data;
+  document.getElementById("hora_span").innerText = hora;
+  document.getElementById("atendente_nome_span").innerText = atendenteNome;
 
   const motivosPorAvaliacao = {
     ruim: ["Demora no atendimento", "Falta de cordialidade", "Explicação confusa"],
