@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="author" content="Front-end desenvolvido por Bruna Seifert © 2025" />
+  <meta name="author" content="Front-end desenvolvido por Bruna Seifert ©️ 2025" />
   <title>Avaliação de Atendimento - ISMD</title>
   <style>
     body {
@@ -282,28 +282,41 @@ document.getElementById("avaliacaoForm").addEventListener("submit", function(eve
 
   console.log("Motivos selecionados:", motivosSelecionados);
 
- const dados = {
-  data: data,
-  hora: hora,
-  atendente_nome: atendenteNome,
-  atendimento: atendimentoSelecionado.value,
-  motivos: motivosSelecionados.join(", "),
-  params: Object.fromEntries(params.entries()) // Adiciona todos os parâmetros da URL
+ // Seus dados a serem enviados
+const dados = {
+    data: data,
+    hora: hora,
+    atendente_nome: atendenteNome,
+    atendimento: atendimentoSelecionado.value,
+    motivos: motivosSelecionados.join(", "),
+    params: Object.fromEntries(params.entries())
 };
 
-fetch('http://127.0.0.1:5501/api/receber', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify(dados)
+// Envia os dados para o arquivo PHP
+fetch('arquivo.php', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(dados) 
 })
 .then(response => response.json())
-.then(data => console.log('Sucesso ' + data))
-.catch(error => console.error('Erro ' + error))
-.finally(() => {
-  window.location.href = "feedback.html";
+.then(data => {
+  
+    console.log(data);
+    if (data.status === 'success') {
+        alert(data.message);
+    } else {
+        alert("Erro: " + data.message);
+    }
+})
+.catch(error => {
+    console.error('Erro na requisição:', error);
+    alert('Ocorreu um erro ao conectar com o servidor.');
 });
+
+  window.location.href = "feedback.html";
+
 });
 
 </script>
