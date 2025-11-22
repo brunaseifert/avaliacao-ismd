@@ -293,11 +293,33 @@ const dados = {
 };
 
 // Envia os dados para o arquivo PHP
-
-   window.location.href = "feedback.html";
+fetch('arquivo.php', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(dados) 
+})
+.then(response => response.json())
+.then(data => {
   
+    console.log(data);
+    if (data.status === 'success') {
+        alert(data.message);
+    } else {
+        alert("Erro: " + data.message);
+    }
+})
+.catch(error => {
+    console.error('Erro na requisição:', error);
+    alert('Ocorreu um erro ao conectar com o servidor.');
+});
+
+  window.location.href = "feedback.html";
+
+});
+
 </script>
 
 </body>
 </html>
-
